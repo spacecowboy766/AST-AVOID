@@ -1,0 +1,369 @@
+<!DOCTYPE html><html><head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
+<script src="https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/1a44ccec-d80d-4a98-be10-98eba69ffc53.js"></script>
+    
+    <meta charset="utf-8">
+
+  <base href="https://editor.p5js.org/doctorstrange07066/present/kIPolFHz1/"><style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+</style></head>
+  <body>
+      <script>//creating game states
+//declaring text sprite for adding score
+//declaring the sprites
+
+//declaring the game states
+var LOGO = 2;
+var PLAY = 1;
+var END = 0;
+var justText
+
+var gameState = LOGO;
+//declaring characters of the game
+var asteroid, asteroidImage;
+var rocket, rocketImage;
+var star, starImage;
+var saturn, saturnImage;
+var earth, earthImage;
+var mercury, mercuryImage;
+var sun, sunImage;
+var moon, moonImage;
+var galaxy2, galaxy2Image;
+var galaxy1, galaxy1Image;
+var logo, logoImage
+var astronaut, astronaut_image
+var nicePlanet, nicePlanet_image;
+var flare, flareImage;
+var sound1, sound2, sound3;
+var soundTrack;
+var opener, openerImage;
+//declaring sprites for end states
+var gameOver, gameOverImage;
+var restart, restartImage
+
+//declaring groups
+var asteroidsGroup;
+var starsGroup;
+var moonGroup;
+var mercuryGroup;
+var sunGroup;
+var galaxy1Group;
+var galaxy2Group;
+var saturnGroup;
+var earthGroup;
+var astronautGroup;
+
+//declaring  score 
+var score;
+var attempts;
+
+//declaring edges
+var edges;
+
+//assigning images to sprites
+function preload() {
+  sunImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/b06e468e-75ca-456a-a80c-2f952cf0c1a5.png");
+  logoImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/36e7cb28-b9b9-4850-a872-5d2d983ef21f.png");
+  moonImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/07e28530-257d-481b-a53a-17197c1fdc99.png");
+  sound1 = loadSound("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/72b98242-731d-423e-acec-171e99a06d26.mp3");
+  sound2 = loadSound("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/72b98242-731d-423e-acec-171e99a06d26.mp3");
+  sound3 = loadSound("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/72b98242-731d-423e-acec-171e99a06d26.mp3");
+  flareImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/d8ae5359-a867-460d-b300-66e7992f4a0b.png");
+  earthImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/4f5959db-b69a-4211-bf1a-c0f6ae6f1950.png");
+  starImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/85bf1aaa-1f0b-4886-afbc-ccb6318f9d63.png");
+  saturnImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/bea41f22-4dc9-4b3d-8516-293932c95051.png");
+  soundTrack = loadSound("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/32778b45-090d-45b5-80d7-b463ae3e6264.wav");
+  galaxy2Image = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/92f577fd-2623-4d67-8d30-9b5db4acd367.png");
+  mercuryImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/b9eac1ba-3516-4738-89e4-8ee8ec5989aa.png");
+  restartImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/0dfe36cd-4e1d-4b86-911e-9dc36cda7a11.png");
+  openerImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/7bfafabc-d4ea-451b-bfa8-98226dd5bc66.png");
+  rocketImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/fd4025ef-3eca-413e-a1fe-07bd0c9dd925.png");
+  galaxy1Image = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/3ff7cc3a-6713-49b5-b2de-b460f1d2db41.png");
+  asteroidImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/62b53a24-d248-45a6-84a3-b9c5a843a6b1.png");
+  gameOver_Image = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/018ccbee-27e2-4c04-bb8e-ee57b61e2e1a.jpg");
+  nicePlanet_Image = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/9678b59e-2cf4-4465-ac86-8de256998628.png");
+  astronaut_Image = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/3644ead7-17d8-4823-bbb9-ffc652ae0862.png");
+  rocketImage = loadImage("https://assets.editor.p5js.org/5f2522c8ba186a0020b9d00c/211b8e88-0146-45b2-b385-4e94b3b9ad4f.png");
+}
+
+//setting the game up
+function setup() {
+  createCanvas(500, 300);
+  //declaring rocket
+  rocket = createSprite(250, 250, 20, 5);
+  rocket.addImage("rocket", rocketImage);
+  rocket.scale = 0.2;
+  score = 0;
+  attempts = 0;
+
+
+
+  ///declaring groups
+  asteroidsGroup = new Group();
+  starsGroup = new Group();
+  moonGroup = new Group();
+  mercuryGroup = new Group();
+  sunGroup = new Group();
+  galaxy1Group = new Group();
+  galaxy2Group = new Group();
+  saturnGroup = new Group();
+  earthGroup = new Group();
+  astronautGroup = new Group();
+  nicePlanetGroup = new Group();
+  flareGroup = new Group();
+  //Declaring logo
+  logo = createSprite(250, 150, 10, 10);
+  logo.addImage(logoImage);
+  logo.scale = 1.2;
+  logo.visible = true;
+  //declaring message for clicking space
+  opener = createSprite(230, 250, 10, 10);
+  opener.addImage(openerImage);
+  opener.scale = 0.2;
+  opener.visible = true;
+  //declaring sprites for end Game state
+  gameOver = createSprite(250, 150, 10, 10);
+  gameOver.addImage(gameOver_Image);
+  gameOver.scale = 0.5;
+  restart = createSprite(440, 150, 10, 10);
+  restart.addImage(restartImage);
+  restart.scale = 0.5;
+  //setting for deciding time for end state sprites
+  gameOver.x = 700;
+  restart.x = 700
+}
+
+
+function draw() {
+
+  textSize(20);
+  text("Attempts: " + attempts, 299, 60); 
+  ///creating edges
+  edges = createEdgeSprites();
+  if (gameState === LOGO) {
+    soundTrack.play();
+
+    //sound2.play();
+    //sound3.play();
+    background(260);
+    rocket.visible = false;
+    if (keyDown("space")) {
+      gameState = PLAY;
+    }
+  }
+  if (gameState === PLAY) {
+
+    logo.visible = false;
+    opener.visible = false;
+    soundTrack.play();
+    background(20);
+    textSize(20);
+    text("Score: " + score, 325, 30);
+    score = score + Math.round(frameCount / 60);
+    rocket.visible = true;
+    if (keyDown("LEFT_ARROW")) {
+      rocket.x = rocket.x - 24
+    }
+    if (keyDown("RIGHT_ARROW")) {
+      rocket.x = rocket.x + 24;
+    }
+    if (rocket.x > 475) {
+      rocket.x = 475;
+    }
+    if (rocket.x < 25) {
+      rocket.x = 25;
+
+    }
+    asteroidShower();
+    rocketVelocity();
+    rocket.setCollider("circle", 0, 0, 150);
+
+
+    if (asteroidsGroup.isTouching(rocket)) {
+
+      attempts = attempts + 1;
+      gameState = END;
+      asteroid.velocityY = 0;
+      sound1.play();
+    }
+
+
+
+  }
+  if (gameState === END) {
+    score.x = 250;
+    gameOver.x = 250;
+    restart.x = 440;
+    asteroidsGroup.setVelocityYEach(0);
+    asteroidsGroup.destroyEach();
+    sunGroup.destroyEach();
+    moonGroup.destroyEach();
+    galaxy1Group.destroyEach();
+    galaxy2Group.destroyEach();
+    mercuryGroup.destroyEach();
+    saturnGroup.destroyEach();
+    earthGroup.destroyEach();
+    astronautGroup.destroyEach();
+    flareGroup.destroyEach();
+    nicePlanetGroup.destroyEach();
+    starsGroup.setVelocityYEach(0);
+    rocket.x = 60;
+    rocket.y = 150;
+
+    if (mousePressedOver(restart)) {
+      reset();
+    }
+
+  }
+  drawSprites();
+}
+//adding obstacles
+function asteroidShower() {
+  if (frameCount % 25 === 0) {
+    asteroid = createSprite(30, 0, 500, 500);
+    asteroid.addImage("asteroid", asteroidImage);
+    asteroid.setCollider("circle", 0, 40, 415);
+
+    asteroid.x = Math.round(random(0, 500));
+    asteroid.velocityY = 12;
+    asteroid.scale = 0.09;
+    //adding asteroids in asteroids group
+    asteroidsGroup.add(asteroid);
+    asteroid.depth = asteroid.depth + 5;
+  }
+
+
+}
+
+
+//creating illusion for making rocket move
+function rocketVelocity() {
+  if (frameCount % 0.5 === 0) {
+    star = createSprite(500, 0, 40, 10);
+    star.x = Math.round(random(0, 500));
+    star.addImage(starImage);
+    star.velocityY = 45;
+    star.depth = rocket.depth;
+    rocket.depth = rocket.depth + 1;
+    star.scale = 0.02;
+    starsGroup.add(star);
+  }
+
+  if (frameCount % 425 === 0) {
+    earth = createSprite(500, 0, 40, 10);
+    earth.addImage(earthImage);
+    earth.x = Math.round(random(0, 500));
+    earth.scale = 0.4;
+    earth.velocityY = 10;
+    earthGroup.add(earth);
+
+
+
+  }
+
+
+  if (frameCount % 336 === 0) {
+    saturn = createSprite(500, 0, 40, 10);
+    saturn.addImage(saturnImage);
+    saturn.x = Math.round(random(0, 500));
+    saturn.scale = 0.4;
+    saturn.velocityY = 20;
+    saturnGroup.add(saturn);
+
+
+  }
+
+  if (frameCount % 243 === 0) {
+    galaxy2 = createSprite(500, 0, 40, 10);
+    galaxy2.addImage(galaxy2Image);
+    galaxy2.x = Math.round(random(0, 500));
+    galaxy2.scale = 0.4;
+    galaxy2.velocityY = 15;
+    galaxy2Group.add(galaxy2);
+  }
+
+  if (frameCount % 159 === 0) {
+    galaxy1 = createSprite(500, 0, 40, 10);
+    galaxy1.addImage(galaxy1Image);
+    galaxy1.x = Math.round(random(0, 500));
+    galaxy1.scale = 0.2;
+    galaxy1.velocityY = 15;
+    galaxy1Group.add(galaxy1);
+  }
+
+  if (frameCount % 744 === 0) {
+    sun = createSprite(500, 0, 40, 10);
+    sun.addImage(sunImage);
+    sun.x = Math.round(random(0, 500));
+    sun.scale = 0.5;
+    sun.velocityY = 10;
+    sunGroup.add(sun);
+
+  }
+  if (frameCount % 673 === 0) {
+    mercury = createSprite(500, 0, 40, 10);
+    mercury.addImage(mercuryImage);
+    mercury.x = Math.round(random(0, 500));
+    mercury.scale = 0.5;
+    mercury.velocityY = 45;
+    mercuryGroup.add(mercury);
+  }
+  if (frameCount % 288 === 0) {
+    moon = createSprite(500, 0, 40, 10);
+    moon.addImage(moonImage);
+    moon.scale = 0.5;
+    moon.x = Math.round(random(0, 500));
+    moon.velocityY = 5;
+    moonGroup.add(moon);
+
+  }
+  if (frameCount % 388 === 0) {
+    astronaut = createSprite(0, 300, 40, 10);
+    astronaut.addImage(astronaut_Image);
+    astronaut.scale = 0.1;
+    astronaut.y = Math.round(random(50, 150));
+    astronaut.velocityX = 5;
+    astronautGroup.add(astronaut);
+
+  }
+  if (frameCount % 456 === 0) {
+    nicePlanet = createSprite(500, 0, 40, 10);
+    nicePlanet.addImage(nicePlanet_Image);
+    nicePlanet.scale = 0.3;
+    nicePlanet.x = Math.round(random(0, 500));
+    nicePlanet.velocityY = 5;
+    nicePlanetGroup.add(nicePlanet);
+
+  }
+  if (frameCount % 233 === 0) {
+    flare = createSprite(500, 0, 40, 10);
+    flare.addImage(flareImage);
+    flare.scale = 0.4;
+    flare.x = Math.round(random(0, 500));
+    flare.velocityY = 5;
+    flareGroup.add(flare);
+
+  }
+}
+//to reset te game
+function reset() {
+  gameState = PLAY;
+  gameOver.x = 700;
+  restart.x = 700;
+  starsGroup.destroyEach();
+  score = 0;
+  rocket.y = 250;
+  rocket.x = 250;
+
+}</script>
+  
+
+</body></html>
